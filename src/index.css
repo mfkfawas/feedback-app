@@ -1,4 +1,3 @@
-/* There are different ways to write css in react, here we write a global style */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
 
 * {
@@ -186,16 +185,18 @@ input:focus {
   color: rebeccapurple;
 }
 
+/* FIX: Remove position: absolute to keep about icon at the bottom of the
+ * document */
 .about-link {
-  position: absolute;
-  bottom: 20px;
-  right: 20px;
-  color: #fff;
-  cursor: pointer;
+  display: flex;
+  justify-content: flex-end;
 }
 
+/* FIX: Remove position: absolute to keep about icon at the bottom of the
+ * document */
 .about-link a {
   color: #fff;
+  cursor: pointer;
 }
 
 .about-link a:hover {
