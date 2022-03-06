@@ -1,13 +1,26 @@
-import { useState } from 'react';
+import { useState, useEffect, useContext } from 'react';
+
+import RatingSelect from './RatingSelect';
 import Card from './shared/Card';
 import Button from './shared/Button';
-import RatingSelect from './RatingSelect';
+import FeedbackContext from '../context/FeedbackContext';
 
-const FeedbackForm = ({ handleAdd }) => {
+const FeedbackForm = () => {
   const [text, setText] = useState('');
   const [rating, setRating] = useState(10);
   const [btnDisabled, setBtnDisabled] = useState(true);
   const [message, setMessage] = useState('');
+
+  const { addFeedback, feedbackEdit, updateFeedback } =
+    useContext(FeedbackContext);
+
+  useEffect(() => {
+    if (feedbackEdit.edit === true) {
+      setBtnDisabled(false);
+      setText(feedbackEdit.item.text);
+      //setting rating here will not bring change in UI, coz it is in another component so look at the useEffect of RatingSelect.jsx
+    }
+  }, [feedbackEdit]);
 
   const handleTextChange = e => {
     // we want the validation to run whenever we type something.
@@ -34,7 +47,11 @@ const FeedbackForm = ({ handleAdd }) => {
         rating,
       };
 
-      handleAdd(feedback);
+      if (feedbackEdit.edit === true) {
+        updateFeedback(feedbackEdit.item.id, feedback);
+      } else {
+        addFeedback(feedback);
+      }
 
       setText('');
       setRating(10);
